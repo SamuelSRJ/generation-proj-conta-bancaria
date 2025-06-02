@@ -1,10 +1,11 @@
 import readline from "readline-sync";
+import { colors } from "./src/util/Colors";
 
 export function main() {
     let opcao: number;
 
     while (true) {
-        console.log(
+        console.log(colors.bg.black, colors.fg.yellow,
             "\n *****************************************************\n",
             "*************** BANCO DO BRAZIL COM Z ***************\n",
             "*****************************************************\n",
@@ -18,7 +19,7 @@ export function main() {
             "*            8 - Transferir valores entre Contas    *\n",
             "*            9 - Sair                               *\n",
             "*****************************************************\n",
-        )
+        colors.reset)
         opcao = readline.questionInt(" Entre com a opção desejada: ");
 
         if (opcao == 9) {
@@ -69,13 +70,13 @@ export function main() {
 }
 
 export function sobre(): void {
-    console.log(
-        " *****************************************************\n",
+    console.log(colors.bg.black, colors.fg.green,
+        "*****************************************************\n",
         "*     Projeto Desenvolvido por: Samuel de Souza     *\n",
         "*   Generation Brasil - generation@generation.org   *\n",
         "*           github.com/conteudoGeneration           *\n",
         "*****************************************************\n",
-    )
+    colors.reset);
 }
 
 main()
