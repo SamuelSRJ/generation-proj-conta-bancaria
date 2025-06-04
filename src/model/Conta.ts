@@ -1,4 +1,4 @@
-export class Conta {
+export abstract class Conta {
     // Atributos
     private _numero: number;
     private _agencia: number;
@@ -88,8 +88,9 @@ export class Conta {
             "\n*****************************************************",
             `\n* Dados da Conta: ${this._numero}                   `,
             `\n* Agencia: ${this._agencia}                         `,
-            `\n* Tipo da Conta: ${this._tipo}                      `,
-            `\n* Saldo: ${this._saldo}                             `,
+            `\n* Tipo da Conta: ${tipo}                            `,
+            `\n* Titular: ${this._titular}                         `,
+            `\n* Saldo: ${this._saldo.toFixed(2)}                  `,
             "\n*****************************************************"
         )
     }

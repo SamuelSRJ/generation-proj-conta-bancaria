@@ -1,16 +1,36 @@
 import readline from "readline-sync";
 import { colors } from "./src/util/Colors";
 import { Conta } from "./src/model/Conta";
+import { ContaCorrente } from "./src/model/ContaCorrente";
+import { ContaPoupanca } from "./src/model/ContaPoupanca";
 
 export function main() {
     let opcao: number;
 
-    const conta: Conta = new Conta(1, 123, 1, "Samuel", 14000);
-    conta.visualizar();
-    conta.sacar(14500);
-    conta.visualizar();
-    conta.depositar(450);
-    conta.visualizar();
+    // Teste Conta
+    // const conta: Conta = new Conta(1, 123, 1, "Adriana", 10000);
+    // conta.visualizar();
+    // conta.sacar(10500);
+    // conta.visualizar();
+    // conta.depositar(5000);
+    // conta.visualizar();
+
+    // Teste Conta Corrente
+    const contacorrente: ContaCorrente = new ContaCorrente(2, 123, 1, "Mariana", 15000, 1000);
+    contacorrente.visualizar();
+    contacorrente.sacar(2000);
+    contacorrente.visualizar();
+    contacorrente.depositar(1000);
+    contacorrente.visualizar();
+
+    // Teste Conta Poupança
+    const contapoupanca: ContaPoupanca = new ContaPoupanca(3, 123, 2, "Victor", 1000, 10);
+    contapoupanca.visualizar();
+    contapoupanca.sacar(200);
+    contapoupanca.visualizar();
+    contapoupanca.depositar(1000);
+    contapoupanca.visualizar();
+
 
     while (true) {
         console.log(colors.bg.black, colors.fg.yellow,
@@ -78,7 +98,7 @@ export function main() {
 }
 
 export function sobre(): void {
-    console.log(colors.bg.black, colors.fg.green,
+    console.log(colors.bg.black, colors.fg.green +
         "*****************************************************\n",
         "*     Projeto Desenvolvido por: Samuel de Souza     *\n",
         "*   Generation Brasil - generation@generation.org   *\n",
