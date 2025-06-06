@@ -22,6 +22,6 @@ export class ContaPoupanca extends Conta{
     // Metodos
     public visualizar(): void {
         super.visualizar();
-        console.log(`Dia de aniversário: ${this._aniversario}`);
+        console.log(`* Dia de aniversário: ${this._aniversario}`);
     }
 }

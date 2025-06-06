@@ -3,34 +3,17 @@ import { colors } from "./src/util/Colors";
 import { Conta } from "./src/model/Conta";
 import { ContaCorrente } from "./src/model/ContaCorrente";
 import { ContaPoupanca } from "./src/model/ContaPoupanca";
+import { ContaController } from "./src/controller/ContaController";
 
 export function main() {
-    let opcao: number;
-
-    // Teste Conta
-    // const conta: Conta = new Conta(1, 123, 1, "Adriana", 10000);
-    // conta.visualizar();
-    // conta.sacar(10500);
-    // conta.visualizar();
-    // conta.depositar(5000);
-    // conta.visualizar();
-
-    // Teste Conta Corrente
-    const contacorrente: ContaCorrente = new ContaCorrente(2, 123, 1, "Mariana", 15000, 1000);
-    contacorrente.visualizar();
-    contacorrente.sacar(2000);
-    contacorrente.visualizar();
-    contacorrente.depositar(1000);
-    contacorrente.visualizar();
-
-    // Teste Conta Poupança
-    const contapoupanca: ContaPoupanca = new ContaPoupanca(3, 123, 2, "Victor", 1000, 10);
-    contapoupanca.visualizar();
-    contapoupanca.sacar(200);
-    contapoupanca.visualizar();
-    contapoupanca.depositar(1000);
-    contapoupanca.visualizar();
-
+    
+    // Instância da Classe ContaController
+    let contas: ContaController = new ContaController();
+    
+    // Variáveis Auxiliares
+    let opcao: number, numero: number, agencia: number, tipo: number, saldo: number, limite: number, aniversario: number, numeroDestino: number, valor: number;
+    let titular: string;
+    const tiposContas = ["Conta Corrente", "Conta Poupança"];
 
     while (true) {
         console.log(colors.bg.black, colors.fg.yellow,
@@ -60,34 +43,111 @@ export function main() {
         switch (opcao) {
             case 1:
                 console.log("\n Criar Conta");
+
+                agencia = readline.questionInt("Digite o Número da agência: ");
+                titular = readline.question("Digite o Nome do Titular da conta: ");
+                tipo = readline.keyInSelect(tiposContas, "", {cancel: false}) + 1;
+                saldo = readline.questionFloat("Digite o Saldo da conta (R$): ");
+                
+                switch (tipo) {
+                    case 1:
+                        limite = readline.questionFloat("Digite o limite da Conta (R$): ");
+                        contas.cadastrar(
+                            new ContaCorrente(contas.gerarNumero(), agencia, tipo, titular, saldo, limite)
+                        );
+                        break;
+                
+                    case 2:
+                        aniversario = readline.questionInt("Digite o Dia do aniversário da Conta Poupança: ");
+                        contas.cadastrar(new ContaPoupanca(contas.gerarNumero(), agencia, tipo, titular, saldo, aniversario));
+                        break;
+                }
+
                 break;
 
             case 2:
                 console.log("\n Listar todas as Contas\n");
+                contas.listarTodas();
                 break;
 
             case 3:
                 console.log("\n Consultar dados da Conta - por número\n");
+                numero = readline.questionInt("Digite o número da Conta: ");
+                contas.procurarPorNumero(numero);
+
                 break;
             
             case 4:
                 console.log("\n Atualizar dados da Conta\n");
+
+                numero = readline.questionInt("Digite o número da Conta: ");
+
+                let conta = contas.buscarNoArray(numero);
+
+                if (conta != null) {
+                    agencia = readline.questionInt("Digite o Número da Agência: ");
+                    titular = readline.question("Digite o Nome do Titular da conta: ");
+                    tipo = conta.tipo;
+
+                    saldo = readline.questionFloat("\nDigite o Saldo da conta (R$): ");
+
+                    switch (tipo) {
+                        case 1:
+                            limite = readline.questionFloat("Digite o limite da Conta (R$): ");
+                            contas.atualizar(
+                                new ContaCorrente(numero, agencia, tipo, titular, saldo, limite)
+                            );
+                            break;
+                    
+                        case 2:
+                            aniversario = readline.questionInt("Digite o Dia de aniversário da Conta Poupança: ");
+                            contas.atualizar(
+                                new ContaPoupanca(numero, agencia, tipo, titular, saldo, aniversario)
+                            );
+                            break;
+                    }
+                } else {
+                    console.log(`\nA Conta numero ${numero} não foi encontrada!`);
+                }
+
                 break;
 
             case 5:
                 console.log("\n Apagar uma conta\n");
+
+                numero = readline.questionInt("Digite o número da Conta: ");
+                contas.deletar(numero);
+
                 break;
 
             case 6:
                 console.log("\n Saque\n");
+
+                numero = readline.questionInt("Digite o número da Conta: ");
+                valor = readline.questionFloat("\nDigite o valor do Saque (R$):");
+                contas.sacar(numero, valor);
+
                 break;
 
             case 7:
                 console.log("\n Depósito\n");
+
+                numero = readline.questionInt("Digite o número da Conta: ");
+                valor = readline.questionFloat("Digite o valor do Depósito (R$): ");
+
+                contas.depositar(numero, valor);
+
                 break;
 
             case 8:
                 console.log("\n Transferência entre Contas\n");
+
+                numero = readline.questionInt("Digite o número da Conta de Origem: ");
+                numeroDestino = readline.questionInt("Digite o número da Conta de Destino: ");
+                valor = readline.questionFloat("\nDigite o valor do Depósito (R$): ");
+
+                contas.transferir(numero, numeroDestino, valor);
+
                 break;
             
             default:
@@ -98,11 +158,12 @@ export function main() {
 }
 
 export function sobre(): void {
+    console.clear();
     console.log(colors.bg.black, colors.fg.green +
         "*****************************************************\n",
         "*     Projeto Desenvolvido por: Samuel de Souza     *\n",
-        "*   Generation Brasil - generation@generation.org   *\n",
-        "*           github.com/conteudoGeneration           *\n",
+        "*       E-mail: samuelsouzarosajr@gmail.com         *\n",
+        "*               github.com/SamuelSRJ                *\n",
         "*****************************************************\n",
     colors.reset);
 }

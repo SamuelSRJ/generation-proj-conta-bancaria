@@ -90,8 +90,7 @@ export abstract class Conta {
             `\n* Agencia: ${this._agencia}                         `,
             `\n* Tipo da Conta: ${tipo}                            `,
             `\n* Titular: ${this._titular}                         `,
-            `\n* Saldo: ${this._saldo.toFixed(2)}                  `,
-            "\n*****************************************************"
+            `\n* Saldo: ${this._saldo.toFixed(2)}                  `
         )
     }
 }
